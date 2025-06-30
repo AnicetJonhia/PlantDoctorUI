@@ -5,8 +5,6 @@ import { router } from 'expo-router';
 import { Camera, Leaf, TrendingUp, Shield, Users, Award } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-// No need for StyleSheet.create anymore!
-// const { width } = Dimensions.get('window'); // Not directly used in className, so can be removed if not used elsewhere
 
 export default function HomeScreen() {
   const handleScanPress = () => {

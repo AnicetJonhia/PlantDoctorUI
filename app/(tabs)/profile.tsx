@@ -5,9 +5,7 @@ import { User, Settings, HelpCircle, Shield, Bell, Globe, ChevronRight, LogOut }
 
 export default function ProfileScreen() {
   const handleLogout = () => {
-    // IMPORTANT: In a real app, do not use Alert.alert for user confirmations.
-    // Instead, use a custom modal UI as alerts are blocked in iframes.
-    // This is kept here for direct conversion from your original code.
+
     Alert.alert(
       'Déconnexion',
       'Êtes-vous sûr de vouloir vous déconnecter ?',
