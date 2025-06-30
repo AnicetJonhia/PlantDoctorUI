@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions, Platform } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Dimensions, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { Camera, Leaf, TrendingUp, Shield, Users, Award } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-const { width } = Dimensions.get('window');
+// No need for StyleSheet.create anymore!
+// const { width } = Dimensions.get('window'); // Not directly used in className, so can be removed if not used elsewhere
 
 export default function HomeScreen() {
   const handleScanPress = () => {
@@ -13,93 +14,93 @@ export default function HomeScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+    <SafeAreaView className="flex-1 bg-gray-50">
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.title}>PlantHealth AI</Text>
-          <Text style={styles.subtitle}>Détection intelligente des maladies des plantes</Text>
+        <View className="px-5 pt-5 pb-8">
+          <Text className="text-4xl font-bold text-gray-900 mb-2">PlantHealth AI</Text>
+          <Text className="text-base text-gray-600 leading-6">Détection intelligente des maladies des plantes</Text>
         </View>
 
         {/* Main Action Card */}
-        <TouchableOpacity onPress={handleScanPress} activeOpacity={0.9}>
+        <TouchableOpacity onPress={handleScanPress} activeOpacity={0.9} className="mx-5 mb-8">
           <LinearGradient
             colors={['#10B981', '#059669']}
-            style={styles.mainActionCard}
+            className="p-8 rounded-3xl items-center shadow-lg shadow-emerald-500/50" // Adjusted shadow for Android elevation and iOS shadow
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
           >
             <Camera size={32} color="#FFFFFF" />
-            <Text style={styles.mainActionTitle}>Scanner une plante</Text>
-            <Text style={styles.mainActionSubtitle}>
+            <Text className="text-2xl font-bold text-white mt-4 mb-2">Scanner une plante</Text>
+            <Text className="text-base text-white text-center opacity-90 leading-6">
               Prenez une photo pour détecter instantanément les maladies
             </Text>
           </LinearGradient>
         </TouchableOpacity>
 
         {/* Statistics */}
-        <View style={styles.statsSection}>
-          <Text style={styles.sectionTitle}>Impact en temps réel</Text>
-          <View style={styles.statsContainer}>
-            <View style={styles.statCard}>
-              <View style={styles.statIcon}>
+        <View className="px-5 mb-8">
+          <Text className="text-xl font-semibold text-gray-900 mb-4">Impact en temps réel</Text>
+          <View className="flex-row justify-between">
+            <View className="flex-1 bg-white p-5 rounded-2xl items-center mx-1 shadow-md">
+              <View className="w-10 h-10 rounded-full bg-gray-100 items-center justify-center mb-3">
                 <Leaf size={20} color="#10B981" />
               </View>
-              <Text style={styles.statNumber}>12,483</Text>
-              <Text style={styles.statLabel}>Plantes analysées</Text>
+              <Text className="text-xl font-bold text-gray-900 mb-1">12,483</Text>
+              <Text className="text-xs font-medium text-gray-600 text-center">Plantes analysées</Text>
             </View>
-            <View style={styles.statCard}>
-              <View style={styles.statIcon}>
+            <View className="flex-1 bg-white p-5 rounded-2xl items-center mx-1 shadow-md">
+              <View className="w-10 h-10 rounded-full bg-gray-100 items-center justify-center mb-3">
                 <Shield size={20} color="#3B82F6" />
               </View>
-              <Text style={styles.statNumber}>94%</Text>
-              <Text style={styles.statLabel}>Précision</Text>
+              <Text className="text-xl font-bold text-gray-900 mb-1">94%</Text>
+              <Text className="text-xs font-medium text-gray-600 text-center">Précision</Text>
             </View>
-            <View style={styles.statCard}>
-              <View style={styles.statIcon}>
+            <View className="flex-1 bg-white p-5 rounded-2xl items-center mx-1 shadow-md">
+              <View className="w-10 h-10 rounded-full bg-gray-100 items-center justify-center mb-3">
                 <Users size={20} color="#F59E0B" />
               </View>
-              <Text style={styles.statNumber}>8,291</Text>
-              <Text style={styles.statLabel}>Agriculteurs aidés</Text>
+              <Text className="text-xl font-bold text-gray-900 mb-1">8,291</Text>
+              <Text className="text-xs font-medium text-gray-600 text-center">Agriculteurs aidés</Text>
             </View>
           </View>
         </View>
 
         {/* Features */}
-        <View style={styles.featuresSection}>
-          <Text style={styles.sectionTitle}>Fonctionnalités</Text>
-          <View style={styles.featuresList}>
-            <View style={styles.featureCard}>
-              <View style={styles.featureIcon}>
+        <View className="px-5 mb-8">
+          <Text className="text-xl font-semibold text-gray-900 mb-4">Fonctionnalités</Text>
+          <View className="gap-y-4">
+            <View className="bg-white p-5 rounded-2xl flex-row items-center shadow-md">
+              <View className="w-12 h-12 rounded-full bg-gray-100 items-center justify-center mr-4">
                 <TrendingUp size={24} color="#10B981" />
               </View>
-              <View style={styles.featureContent}>
-                <Text style={styles.featureTitle}>Diagnostic rapide</Text>
-                <Text style={styles.featureDescription}>
+              <View className="flex-1">
+                <Text className="text-base font-semibold text-gray-900 mb-1">Diagnostic rapide</Text>
+                <Text className="text-sm text-gray-600 leading-5">
                   Identification des maladies en moins de 3 secondes
                 </Text>
               </View>
             </View>
-            
-            <View style={styles.featureCard}>
-              <View style={styles.featureIcon}>
+
+            <View className="bg-white p-5 rounded-2xl flex-row items-center shadow-md">
+              <View className="w-12 h-12 rounded-full bg-gray-100 items-center justify-center mr-4">
                 <Award size={24} color="#3B82F6" />
               </View>
-              <View style={styles.featureContent}>
-                <Text style={styles.featureTitle}>Recommandations expertes</Text>
-                <Text style={styles.featureDescription}>
+              <View className="flex-1">
+                <Text className="text-base font-semibold text-gray-900 mb-1">Recommandations expertes</Text>
+                <Text className="text-sm text-gray-600 leading-5">
                   Solutions de traitement personnalisées et éco-responsables
                 </Text>
               </View>
             </View>
-            
-            <View style={styles.featureCard}>
-              <View style={styles.featureIcon}>
+
+            <View className="bg-white p-5 rounded-2xl flex-row items-center shadow-md">
+              <View className="w-12 h-12 rounded-full bg-gray-100 items-center justify-center mr-4">
                 <Leaf size={24} color="#059669" />
               </View>
-              <View style={styles.featureContent}>
-                <Text style={styles.featureTitle}>Agriculture durable</Text>
-                <Text style={styles.featureDescription}>
+              <View className="flex-1">
+                <Text className="text-base font-semibold text-gray-900 mb-1">Agriculture durable</Text>
+                <Text className="text-sm text-gray-600 leading-5">
                   Contribuez aux objectifs de développement durable (ODD 2, 13, 15)
                 </Text>
               </View>
@@ -108,20 +109,20 @@ export default function HomeScreen() {
         </View>
 
         {/* ODD Section */}
-        <View style={styles.oddSection}>
-          <Text style={styles.sectionTitle}>Objectifs de Développement Durable</Text>
-          <View style={styles.oddContainer}>
-            <View style={styles.oddCard}>
-              <Text style={styles.oddNumber}>2</Text>
-              <Text style={styles.oddTitle}>Faim zéro</Text>
+        <View className="px-5 mb-8">
+          <Text className="text-xl font-semibold text-gray-900 mb-4">Objectifs de Développement Durable</Text>
+          <View className="flex-row justify-between">
+            <View className="flex-1 bg-white p-5 rounded-2xl items-center mx-1 border-l-4 border-emerald-500 shadow-md">
+              <Text className="text-3xl font-bold text-emerald-500 mb-2">2</Text>
+              <Text className="text-xs font-medium text-gray-900 text-center leading-4">Faim zéro</Text>
             </View>
-            <View style={styles.oddCard}>
-              <Text style={styles.oddNumber}>13</Text>
-              <Text style={styles.oddTitle}>Action climatique</Text>
+            <View className="flex-1 bg-white p-5 rounded-2xl items-center mx-1 border-l-4 border-emerald-500 shadow-md">
+              <Text className="text-3xl font-bold text-emerald-500 mb-2">13</Text>
+              <Text className="text-xs font-medium text-gray-900 text-center leading-4">Action climatique</Text>
             </View>
-            <View style={styles.oddCard}>
-              <Text style={styles.oddNumber}>15</Text>
-              <Text style={styles.oddTitle}>Vie terrestre</Text>
+            <View className="flex-1 bg-white p-5 rounded-2xl items-center mx-1 border-l-4 border-emerald-500 shadow-md">
+              <Text className="text-3xl font-bold text-emerald-500 mb-2">15</Text>
+              <Text className="text-xs font-medium text-gray-900 text-center leading-4">Vie terrestre</Text>
             </View>
           </View>
         </View>
@@ -130,207 +131,3 @@ export default function HomeScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F9FAFB',
-  },
-  scrollView: {
-    flex: 1,
-  },
-  header: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 30,
-  },
-  title: {
-    fontSize: 32,
-    fontFamily: 'Inter-Bold',
-    color: '#111827',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    fontFamily: 'Inter-Regular',
-    color: '#6B7280',
-    lineHeight: 24,
-  },
-  mainActionCard: {
-    marginHorizontal: 20,
-    padding: 32,
-    borderRadius: 20,
-    alignItems: 'center',
-    marginBottom: 30,
-    ...Platform.select({
-      ios: {
-        shadowColor: '#10B981',
-        shadowOffset: { width: 0, height: 8 },
-        shadowOpacity: 0.3,
-        shadowRadius: 20,
-      },
-      android: {
-        elevation: 8,
-      },
-    }),
-  },
-  mainActionTitle: {
-    fontSize: 24,
-    fontFamily: 'Inter-Bold',
-    color: '#FFFFFF',
-    marginTop: 16,
-    marginBottom: 8,
-  },
-  mainActionSubtitle: {
-    fontSize: 16,
-    fontFamily: 'Inter-Regular',
-    color: '#FFFFFF',
-    textAlign: 'center',
-    opacity: 0.9,
-    lineHeight: 24,
-  },
-  statsSection: {
-    paddingHorizontal: 20,
-    marginBottom: 30,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontFamily: 'Inter-SemiBold',
-    color: '#111827',
-    marginBottom: 16,
-  },
-  statsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  statCard: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    padding: 20,
-    borderRadius: 16,
-    alignItems: 'center',
-    marginHorizontal: 4,
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 8,
-      },
-      android: {
-        elevation: 3,
-      },
-    }),
-  },
-  statIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#F3F4F6',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 12,
-  },
-  statNumber: {
-    fontSize: 20,
-    fontFamily: 'Inter-Bold',
-    color: '#111827',
-    marginBottom: 4,
-  },
-  statLabel: {
-    fontSize: 12,
-    fontFamily: 'Inter-Medium',
-    color: '#6B7280',
-    textAlign: 'center',
-  },
-  featuresSection: {
-    paddingHorizontal: 20,
-    marginBottom: 30,
-  },
-  featuresList: {
-    gap: 16,
-  },
-  featureCard: {
-    backgroundColor: '#FFFFFF',
-    padding: 20,
-    borderRadius: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 8,
-      },
-      android: {
-        elevation: 3,
-      },
-    }),
-  },
-  featureIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: '#F3F4F6',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 16,
-  },
-  featureContent: {
-    flex: 1,
-  },
-  featureTitle: {
-    fontSize: 16,
-    fontFamily: 'Inter-SemiBold',
-    color: '#111827',
-    marginBottom: 4,
-  },
-  featureDescription: {
-    fontSize: 14,
-    fontFamily: 'Inter-Regular',
-    color: '#6B7280',
-    lineHeight: 20,
-  },
-  oddSection: {
-    paddingHorizontal: 20,
-    marginBottom: 30,
-  },
-  oddContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  oddCard: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    padding: 20,
-    borderRadius: 16,
-    alignItems: 'center',
-    marginHorizontal: 4,
-    borderLeftWidth: 4,
-    borderLeftColor: '#10B981',
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 8,
-      },
-      android: {
-        elevation: 3,
-      },
-    }),
-  },
-  oddNumber: {
-    fontSize: 24,
-    fontFamily: 'Inter-Bold',
-    color: '#10B981',
-    marginBottom: 8,
-  },
-  oddTitle: {
-    fontSize: 12,
-    fontFamily: 'Inter-Medium',
-    color: '#111827',
-    textAlign: 'center',
-    lineHeight: 16,
-  },
-});

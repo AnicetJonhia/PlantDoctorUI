@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, Alert, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
 import { router } from 'expo-router';
@@ -7,10 +7,10 @@ import { Camera, RotateCcw, ArrowLeft, Zap } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
 
 export default function CameraScreen() {
-  const [facing, setFacing] = useState<CameraType>('back');
+  const [facing, setFacing] = useState('back'); // Specify type if using TypeScript: useState<CameraType>
   const [permission, requestPermission] = useCameraPermissions();
   const [isCapturing, setIsCapturing] = useState(false);
-  const cameraRef = useRef<CameraView>(null);
+  const cameraRef = useRef(null); // Specify type if using TypeScript: useRef<CameraView>(null)
 
   const triggerHaptic = () => {
     if (Platform.OS !== 'web') {
@@ -19,29 +19,31 @@ export default function CameraScreen() {
   };
 
   if (!permission) {
+    // Camera permissions are still loading
     return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.loadingContainer}>
-          <Text style={styles.loadingText}>Chargement de la caméra...</Text>
+      <SafeAreaView className="flex-1 bg-gray-50">
+        <View className="flex-1 justify-center items-center bg-gray-50">
+          <Text className="text-base font-normal text-gray-600">Chargement de la caméra...</Text>
         </View>
       </SafeAreaView>
     );
   }
 
   if (!permission.granted) {
+    // Camera permissions are not granted yet
     return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.permissionContainer}>
+      <SafeAreaView className="flex-1 bg-gray-50">
+        <View className="flex-1 justify-center items-center bg-gray-50 px-8">
           <Camera size={64} color="#10B981" />
-          <Text style={styles.permissionTitle}>Accès à la caméra requis</Text>
-          <Text style={styles.permissionText}>
+          <Text className="text-2xl font-bold text-gray-900 text-center mt-6 mb-4">Accès à la caméra requis</Text>
+          <Text className="text-base font-normal text-gray-600 text-center leading-6 mb-8">
             Nous avons besoin d'accéder à votre caméra pour analyser vos plantes
           </Text>
-          <TouchableOpacity 
-            style={styles.permissionButton} 
+          <TouchableOpacity
+            className="bg-emerald-500 px-8 py-4 rounded-xl"
             onPress={requestPermission}
           >
-            <Text style={styles.permissionButtonText}>Autoriser l'accès</Text>
+            <Text className="text-base font-semibold text-white">Autoriser l'accès</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -59,7 +61,7 @@ export default function CameraScreen() {
     try {
       setIsCapturing(true);
       triggerHaptic();
-      
+
       const photo = await cameraRef.current.takePictureAsync({
         quality: 0.8,
       });
@@ -69,7 +71,7 @@ export default function CameraScreen() {
         setIsCapturing(false);
         router.push({
           pathname: '/analysis',
-          params: { 
+          params: {
             imageUri: photo?.uri || '',
             timestamp: Date.now().toString()
           }
@@ -88,262 +90,74 @@ export default function CameraScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <CameraView style={styles.camera} facing={facing} ref={cameraRef}>
+    <SafeAreaView className="flex-1 bg-black">
+      <CameraView className="flex-1" facing={facing} ref={cameraRef}>
         {/* Header */}
-        <View style={styles.header}>
-          <TouchableOpacity 
-            style={styles.backButton} 
+        <View className="flex-row items-center justify-between px-5 pt-5 pb-5">
+          <TouchableOpacity
+            className="w-11 h-11 rounded-full bg-black/50 items-center justify-center"
             onPress={goBack}
             activeOpacity={0.7}
           >
             <ArrowLeft size={24} color="#FFFFFF" />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Scanner une plante</Text>
-          <View style={styles.placeholder} />
+          <Text className="text-lg font-semibold text-white">Scanner une plante</Text>
+          {/* Placeholder to balance the layout */}
+          <View className="w-11" />
         </View>
 
         {/* Instructions */}
-        <View style={styles.instructionsContainer}>
-          <Text style={styles.instructionsText}>
+        <View className="items-center px-8 mb-10">
+          <Text className="text-base font-normal text-white text-center bg-black/50 px-4 py-2 rounded-lg">
             Centrez la partie malade de la plante dans le cadre
           </Text>
         </View>
 
         {/* Camera Frame */}
-        <View style={styles.frameContainer}>
-          <View style={styles.frame}>
-            <View style={[styles.corner, styles.topLeft]} />
-            <View style={[styles.corner, styles.topRight]} />
-            <View style={[styles.corner, styles.bottomLeft]} />
-            <View style={[styles.corner, styles.bottomRight]} />
+        <View className="flex-1 justify-center items-center">
+          <View className="w-70 h-70 relative">
+            <View className="absolute top-0 left-0 w-[30px] h-[30px] border-[3px] border-emerald-500 border-r-0 border-b-0" />
+            <View className="absolute top-0 right-0 w-[30px] h-[30px] border-[3px] border-emerald-500 border-l-0 border-b-0" />
+            <View className="absolute bottom-0 left-0 w-[30px] h-[30px] border-[3px] border-emerald-500 border-r-0 border-t-0" />
+            <View className="absolute bottom-0 right-0 w-[30px] h-[30px] border-[3px] border-emerald-500 border-l-0 border-t-0" />
           </View>
         </View>
 
         {/* Controls */}
-        <View style={styles.controls}>
-          <TouchableOpacity 
-            style={styles.flipButton} 
+        <View className="flex-row items-center justify-between px-10 pb-10 pt-5">
+          <TouchableOpacity
+            className="w-14 h-14 rounded-full bg-black/50 items-center justify-center"
             onPress={toggleCameraFacing}
             activeOpacity={0.7}
           >
             <RotateCcw size={24} color="#FFFFFF" />
           </TouchableOpacity>
 
-          <TouchableOpacity 
-            style={[styles.captureButton, isCapturing && styles.capturingButton]}
+          <TouchableOpacity
+            className={`w-20 h-20 rounded-full bg-white items-center justify-center border-4 border-emerald-500 ${isCapturing ? 'bg-emerald-500' : ''}`}
             onPress={takePicture}
             disabled={isCapturing}
             activeOpacity={0.8}
           >
             {isCapturing ? (
-              <View style={styles.capturingIndicator}>
+              <View className="items-center justify-center">
                 <Zap size={32} color="#FFFFFF" />
               </View>
             ) : (
-              <View style={styles.captureInner} />
+              <View className="w-16 h-16 rounded-full bg-emerald-500" />
             )}
           </TouchableOpacity>
 
-          <View style={styles.placeholder} />
+          {/* Placeholder to balance the layout */}
+          <View className="w-14" />
         </View>
 
         {isCapturing && (
-          <View style={styles.analysisOverlay}>
-            <Text style={styles.analysisText}>Analyse en cours...</Text>
+          <View className="absolute inset-0 bg-black/80 items-center justify-center">
+            <Text className="text-lg font-semibold text-white mt-4">Analyse en cours...</Text>
           </View>
         )}
       </CameraView>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000000',
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F9FAFB',
-  },
-  loadingText: {
-    fontSize: 16,
-    fontFamily: 'Inter-Regular',
-    color: '#6B7280',
-  },
-  permissionContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F9FAFB',
-    paddingHorizontal: 32,
-  },
-  permissionTitle: {
-    fontSize: 24,
-    fontFamily: 'Inter-Bold',
-    color: '#111827',
-    textAlign: 'center',
-    marginTop: 24,
-    marginBottom: 16,
-  },
-  permissionText: {
-    fontSize: 16,
-    fontFamily: 'Inter-Regular',
-    color: '#6B7280',
-    textAlign: 'center',
-    lineHeight: 24,
-    marginBottom: 32,
-  },
-  permissionButton: {
-    backgroundColor: '#10B981',
-    paddingHorizontal: 32,
-    paddingVertical: 16,
-    borderRadius: 12,
-  },
-  permissionButtonText: {
-    fontSize: 16,
-    fontFamily: 'Inter-SemiBold',
-    color: '#FFFFFF',
-  },
-  camera: {
-    flex: 1,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 20,
-  },
-  backButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontFamily: 'Inter-SemiBold',
-    color: '#FFFFFF',
-  },
-  placeholder: {
-    width: 44,
-  },
-  instructionsContainer: {
-    alignItems: 'center',
-    paddingHorizontal: 32,
-    marginBottom: 40,
-  },
-  instructionsText: {
-    fontSize: 16,
-    fontFamily: 'Inter-Regular',
-    color: '#FFFFFF',
-    textAlign: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 8,
-  },
-  frameContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  frame: {
-    width: 280,
-    height: 280,
-    position: 'relative',
-  },
-  corner: {
-    position: 'absolute',
-    width: 30,
-    height: 30,
-    borderColor: '#10B981',
-    borderWidth: 3,
-  },
-  topLeft: {
-    top: 0,
-    left: 0,
-    borderRightWidth: 0,
-    borderBottomWidth: 0,
-  },
-  topRight: {
-    top: 0,
-    right: 0,
-    borderLeftWidth: 0,
-    borderBottomWidth: 0,
-  },
-  bottomLeft: {
-    bottom: 0,
-    left: 0,
-    borderRightWidth: 0,
-    borderTopWidth: 0,
-  },
-  bottomRight: {
-    bottom: 0,
-    right: 0,
-    borderLeftWidth: 0,
-    borderTopWidth: 0,
-  },
-  controls: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 40,
-    paddingBottom: 40,
-    paddingTop: 20,
-  },
-  flipButton: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  captureButton: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#FFFFFF',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 4,
-    borderColor: '#10B981',
-  },
-  capturingButton: {
-    backgroundColor: '#10B981',
-  },
-  captureInner: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    backgroundColor: '#10B981',
-  },
-  capturingIndicator: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  analysisOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  analysisText: {
-    fontSize: 18,
-    fontFamily: 'Inter-SemiBold',
-    color: '#FFFFFF',
-    marginTop: 16,
-  },
-});

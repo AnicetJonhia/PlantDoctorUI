@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Calendar, ChevronRight, AlertTriangle, CheckCircle, Clock } from 'lucide-react-native';
 
@@ -62,13 +62,14 @@ const mockHistory: AnalysisRecord[] = [
   }
 ];
 
+
 export default function HistoryScreen() {
-  const getSeverityColor = (severity: string) => {
+  const getSeverityColorClass = (severity: string) => {
     switch (severity) {
-      case 'Faible': return '#10B981';
-      case 'Modérée': return '#F59E0B';
-      case 'Élevée': return '#EF4444';
-      default: return '#6B7280';
+      case 'Faible': return 'bg-emerald-500'; // #10B981
+      case 'Modérée': return 'bg-amber-500';  // #F59E0B
+      case 'Élevée': return 'bg-red-500';     // #EF4444
+      default: return 'bg-gray-500';         // #6B7280
     }
   };
 
@@ -91,64 +92,61 @@ export default function HistoryScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Historique des analyses</Text>
-        <Text style={styles.subtitle}>Consultez vos précédentes détections</Text>
+    <SafeAreaView className="flex-1 bg-gray-50">
+      <View className="px-5 pt-5 pb-5">
+        <Text className="text-3xl font-bold text-gray-900 mb-2">Historique des analyses</Text>
+        <Text className="text-base font-normal text-gray-600">Consultez vos précédentes détections</Text>
       </View>
 
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+      <ScrollView className="flex-1 px-5" showsVerticalScrollIndicator={false}>
         {mockHistory.map((record) => (
-          <TouchableOpacity key={record.id} style={styles.recordCard} activeOpacity={0.7}>
-            <Image source={{ uri: record.imageUrl }} style={styles.recordImage} />
-            
-            <View style={styles.recordContent}>
-              <View style={styles.recordHeader}>
-                <Text style={styles.plantType}>{record.plantType}</Text>
-                <View style={styles.dateContainer}>
+          <TouchableOpacity key={record.id} className="bg-white rounded-2xl p-4 mb-4 flex-row items-center shadow-md" activeOpacity={0.7}>
+            <Image source={{ uri: record.imageUrl }} className="w-[60px] h-[60px] rounded-xl mr-4" />
+
+            <View className="flex-1">
+              <View className="flex-row justify-between items-center mb-1">
+                <Text className="text-base font-semibold text-gray-900">{record.plantType}</Text>
+                <View className="flex-row items-center gap-1">
                   <Calendar size={14} color="#6B7280" />
-                  <Text style={styles.recordDate}>{formatDate(record.date)}</Text>
+                  <Text className="text-xs font-normal text-gray-600">{formatDate(record.date)}</Text>
                 </View>
               </View>
-              
-              <Text style={styles.disease}>{record.disease}</Text>
-              
-              <View style={styles.recordDetails}>
-                <View style={styles.severityContainer}>
-                  <View 
-                    style={[
-                      styles.severityDot, 
-                      { backgroundColor: getSeverityColor(record.severity) }
-                    ]} 
+
+              <Text className="text-sm font-medium text-red-500 mb-2">{record.disease}</Text>
+
+              <View className="flex-row justify-between items-center mb-2">
+                <View className="flex-row items-center">
+                  <View
+                    className={`w-2 h-2 rounded-full mr-1.5 ${getSeverityColorClass(record.severity)}`}
                   />
-                  <Text style={styles.severityText}>
+                  <Text className="text-xs font-normal text-gray-600">
                     Sévérité: {record.severity}
                   </Text>
                 </View>
-                
-                <View style={styles.statusContainer}>
+
+                <View className="flex-row items-center gap-1">
                   {getStatusIcon(record.status)}
-                  <Text style={styles.statusText}>{record.status}</Text>
+                  <Text className="text-xs font-medium text-gray-600">{record.status}</Text>
                 </View>
               </View>
-              
-              <View style={styles.recordFooter}>
-                <Text style={styles.confidence}>
+
+              <View className="flex-row justify-between items-center">
+                <Text className="text-xs font-medium text-emerald-500">
                   Confiance: {record.confidence}%
                 </Text>
-                <Text style={styles.recordTime}>{record.time}</Text>
+                <Text className="text-xs font-normal text-gray-400">{record.time}</Text>
               </View>
             </View>
-            
+
             <ChevronRight size={20} color="#6B7280" />
           </TouchableOpacity>
         ))}
-        
+
         {mockHistory.length === 0 && (
-          <View style={styles.emptyState}>
+          <View className="items-center justify-center py-20">
             <Calendar size={64} color="#D1D5DB" />
-            <Text style={styles.emptyTitle}>Aucune analyse</Text>
-            <Text style={styles.emptyText}>
+            <Text className="text-xl font-semibold text-gray-700 mt-4 mb-2">Aucune analyse</Text>
+            <Text className="text-base font-normal text-gray-600 text-center leading-6 px-8">
               Vos analyses apparaîtront ici une fois que vous aurez scanné des plantes
             </Text>
           </View>
@@ -158,146 +156,3 @@ export default function HistoryScreen() {
   );
 }
 
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F9FAFB',
-  },
-  header: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 20,
-  },
-  title: {
-    fontSize: 28,
-    fontFamily: 'Inter-Bold',
-    color: '#111827',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    fontFamily: 'Inter-Regular',
-    color: '#6B7280',
-  },
-  scrollView: {
-    flex: 1,
-    paddingHorizontal: 20,
-  },
-  recordCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
-  },
-  recordImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 12,
-    marginRight: 16,
-  },
-  recordContent: {
-    flex: 1,
-  },
-  recordHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 4,
-  },
-  plantType: {
-    fontSize: 16,
-    fontFamily: 'Inter-SemiBold',
-    color: '#111827',
-  },
-  dateContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  recordDate: {
-    fontSize: 12,
-    fontFamily: 'Inter-Regular',
-    color: '#6B7280',
-  },
-  disease: {
-    fontSize: 14,
-    fontFamily: 'Inter-Medium',
-    color: '#EF4444',
-    marginBottom: 8,
-  },
-  recordDetails: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  severityContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  severityDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginRight: 6,
-  },
-  severityText: {
-    fontSize: 12,
-    fontFamily: 'Inter-Regular',
-    color: '#6B7280',
-  },
-  statusContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  statusText: {
-    fontSize: 12,
-    fontFamily: 'Inter-Medium',
-    color: '#6B7280',
-  },
-  recordFooter: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  confidence: {
-    fontSize: 12,
-    fontFamily: 'Inter-Medium',
-    color: '#10B981',
-  },
-  recordTime: {
-    fontSize: 12,
-    fontFamily: 'Inter-Regular',
-    color: '#9CA3AF',
-  },
-  emptyState: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 80,
-  },
-  emptyTitle: {
-    fontSize: 20,
-    fontFamily: 'Inter-SemiBold',
-    color: '#374151',
-    marginTop: 16,
-    marginBottom: 8,
-  },
-  emptyText: {
-    fontSize: 16,
-    fontFamily: 'Inter-Regular',
-    color: '#6B7280',
-    textAlign: 'center',
-    lineHeight: 24,
-    paddingHorizontal: 32,
-  },
-});

@@ -1,10 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { User, Settings, HelpCircle, Shield, Bell, Globe, ChevronRight, LogOut } from 'lucide-react-native';
 
 export default function ProfileScreen() {
   const handleLogout = () => {
+    // IMPORTANT: In a real app, do not use Alert.alert for user confirmations.
+    // Instead, use a custom modal UI as alerts are blocked in iframes.
+    // This is kept here for direct conversion from your original code.
     Alert.alert(
       'Déconnexion',
       'Êtes-vous sûr de vouloir vous déconnecter ?',
@@ -23,47 +26,47 @@ export default function ProfileScreen() {
     showChevron?: boolean;
     danger?: boolean;
   }) => (
-    <TouchableOpacity 
-      style={styles.menuItem} 
+    <TouchableOpacity
+      className={`flex-row items-center p-4 border-b border-gray-100 last:border-b-0`} // last:border-b-0 removes border from last item
       onPress={onPress}
       activeOpacity={0.7}
     >
-      <View style={[styles.menuIcon, danger && styles.dangerIcon]}>
+      <View className={`w-10 h-10 rounded-full items-center justify-center mr-3 ${danger ? 'bg-red-50' : 'bg-gray-50'}`}>
         {icon}
       </View>
-      <View style={styles.menuContent}>
-        <Text style={[styles.menuTitle, danger && styles.dangerText]}>{title}</Text>
-        {subtitle && <Text style={styles.menuSubtitle}>{subtitle}</Text>}
+      <View className="flex-1">
+        <Text className={`text-base font-medium mb-0.5 ${danger ? 'text-red-500' : 'text-gray-900'}`}>{title}</Text>
+        {subtitle && <Text className="text-sm font-normal text-gray-600">{subtitle}</Text>}
       </View>
       {showChevron && <ChevronRight size={20} color="#6B7280" />}
     </TouchableOpacity>
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+    <SafeAreaView className="flex-1 bg-gray-50">
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.title}>Profil</Text>
-          <Text style={styles.subtitle}>Gérez votre compte et préférences</Text>
+        <View className="px-5 pt-5 pb-5">
+          <Text className="text-3xl font-bold text-gray-900 mb-2">Profil</Text>
+          <Text className="text-base font-normal text-gray-600">Gérez votre compte et préférences</Text>
         </View>
 
         {/* User Info */}
-        <View style={styles.userCard}>
-          <View style={styles.avatarContainer}>
+        <View className="bg-white mx-5 p-5 rounded-2xl flex-row items-center mb-6 shadow-md">
+          <View className="w-16 h-16 rounded-full bg-emerald-50 items-center justify-center mr-4">
             <User size={32} color="#10B981" />
           </View>
-          <View style={styles.userInfo}>
-            <Text style={styles.userName}>Utilisateur Demo</Text>
-            <Text style={styles.userEmail}>demo@planthealth.ai</Text>
-            <Text style={styles.userStats}>126 analyses • Membre depuis Jan 2024</Text>
+          <View className="flex-1">
+            <Text className="text-lg font-semibold text-gray-900 mb-1">Utilisateur Demo</Text>
+            <Text className="text-sm font-normal text-gray-600 mb-1">demo@planthealth.ai</Text>
+            <Text className="text-xs font-normal text-gray-400">126 analyses • Membre depuis Jan 2024</Text>
           </View>
         </View>
 
         {/* Account Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Compte</Text>
-          <View style={styles.menuGroup}>
+        <View className="mb-6">
+          <Text className="text-base font-semibold text-gray-700 px-5 mb-3">Compte</Text>
+          <View className="bg-white mx-5 rounded-2xl shadow-md overflow-hidden">
             <MenuItem
               icon={<Settings size={24} color="#6B7280" />}
               title="Paramètres"
@@ -86,9 +89,9 @@ export default function ProfileScreen() {
         </View>
 
         {/* Support Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Support</Text>
-          <View style={styles.menuGroup}>
+        <View className="mb-6">
+          <Text className="text-base font-semibold text-gray-700 px-5 mb-3">Support</Text>
+          <View className="bg-white mx-5 rounded-2xl shadow-md overflow-hidden">
             <MenuItem
               icon={<HelpCircle size={24} color="#6B7280" />}
               title="Centre d'aide"
@@ -105,27 +108,27 @@ export default function ProfileScreen() {
         </View>
 
         {/* Statistics */}
-        <View style={styles.statsSection}>
-          <Text style={styles.sectionTitle}>Vos statistiques</Text>
-          <View style={styles.statsContainer}>
-            <View style={styles.statCard}>
-              <Text style={styles.statNumber}>126</Text>
-              <Text style={styles.statLabel}>Analyses</Text>
+        <View className="mb-6">
+          <Text className="text-base font-semibold text-gray-700 px-5 mb-3">Vos statistiques</Text>
+          <View className="flex-row mx-5 gap-3">
+            <View className="flex-1 bg-white p-4 rounded-xl items-center shadow-md">
+              <Text className="text-xl font-bold text-emerald-500 mb-1">126</Text>
+              <Text className="text-xs font-normal text-gray-600 text-center">Analyses</Text>
             </View>
-            <View style={styles.statCard}>
-              <Text style={styles.statNumber}>42</Text>
-              <Text style={styles.statLabel}>Maladies détectées</Text>
+            <View className="flex-1 bg-white p-4 rounded-xl items-center shadow-md">
+              <Text className="text-xl font-bold text-emerald-500 mb-1">42</Text>
+              <Text className="text-xs font-normal text-gray-600 text-center">Maladies détectées</Text>
             </View>
-            <View style={styles.statCard}>
-              <Text style={styles.statNumber}>93%</Text>
-              <Text style={styles.statLabel}>Précision moyenne</Text>
+            <View className="flex-1 bg-white p-4 rounded-xl items-center shadow-md">
+              <Text className="text-xl font-bold text-emerald-500 mb-1">93%</Text>
+              <Text className="text-xs font-normal text-gray-600 text-center">Précision moyenne</Text>
             </View>
           </View>
         </View>
 
         {/* Logout */}
-        <View style={styles.section}>
-          <View style={styles.menuGroup}>
+        <View className="mb-6">
+          <View className="bg-white mx-5 rounded-2xl shadow-md overflow-hidden">
             <MenuItem
               icon={<LogOut size={24} color="#EF4444" />}
               title="Déconnexion"
@@ -137,179 +140,12 @@ export default function ProfileScreen() {
         </View>
 
         {/* App Info */}
-        <View style={styles.appInfo}>
-          <Text style={styles.appInfoText}>PlantHealth AI v1.0.0</Text>
-          <Text style={styles.appInfoText}>Développé pour les ODD 2, 13, 15</Text>
+        <View className="items-center py-6 px-5">
+          <Text className="text-xs font-normal text-gray-400 mb-1">PlantHealth AI v1.0.0</Text>
+          <Text className="text-xs font-normal text-gray-400">Développé pour les ODD 2, 13, 15</Text>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F9FAFB',
-  },
-  scrollView: {
-    flex: 1,
-  },
-  header: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 20,
-  },
-  title: {
-    fontSize: 28,
-    fontFamily: 'Inter-Bold',
-    color: '#111827',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    fontFamily: 'Inter-Regular',
-    color: '#6B7280',
-  },
-  userCard: {
-    backgroundColor: '#FFFFFF',
-    marginHorizontal: 20,
-    padding: 20,
-    borderRadius: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 24,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
-  },
-  avatarContainer: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    backgroundColor: '#F0FDF4',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 16,
-  },
-  userInfo: {
-    flex: 1,
-  },
-  userName: {
-    fontSize: 18,
-    fontFamily: 'Inter-SemiBold',
-    color: '#111827',
-    marginBottom: 4,
-  },
-  userEmail: {
-    fontSize: 14,
-    fontFamily: 'Inter-Regular',
-    color: '#6B7280',
-    marginBottom: 4,
-  },
-  userStats: {
-    fontSize: 12,
-    fontFamily: 'Inter-Regular',
-    color: '#9CA3AF',
-  },
-  section: {
-    marginBottom: 24,
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontFamily: 'Inter-SemiBold',
-    color: '#374151',
-    paddingHorizontal: 20,
-    marginBottom: 12,
-  },
-  menuGroup: {
-    backgroundColor: '#FFFFFF',
-    marginHorizontal: 20,
-    borderRadius: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
-  },
-  menuItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#F3F4F6',
-  },
-  menuIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#F9FAFB',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 12,
-  },
-  dangerIcon: {
-    backgroundColor: '#FEF2F2',
-  },
-  menuContent: {
-    flex: 1,
-  },
-  menuTitle: {
-    fontSize: 16,
-    fontFamily: 'Inter-Medium',
-    color: '#111827',
-    marginBottom: 2,
-  },
-  dangerText: {
-    color: '#EF4444',
-  },
-  menuSubtitle: {
-    fontSize: 14,
-    fontFamily: 'Inter-Regular',
-    color: '#6B7280',
-  },
-  statsSection: {
-    marginBottom: 24,
-  },
-  statsContainer: {
-    flexDirection: 'row',
-    marginHorizontal: 20,
-    gap: 12,
-  },
-  statCard: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    padding: 16,
-    borderRadius: 12,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
-  },
-  statNumber: {
-    fontSize: 20,
-    fontFamily: 'Inter-Bold',
-    color: '#10B981',
-    marginBottom: 4,
-  },
-  statLabel: {
-    fontSize: 12,
-    fontFamily: 'Inter-Regular',
-    color: '#6B7280',
-    textAlign: 'center',
-  },
-  appInfo: {
-    alignItems: 'center',
-    paddingVertical: 24,
-    paddingHorizontal: 20,
-  },
-  appInfoText: {
-    fontSize: 12,
-    fontFamily: 'Inter-Regular',
-    color: '#9CA3AF',
-    marginBottom: 4,
-  },
-});
